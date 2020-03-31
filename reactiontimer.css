@@ -1,0 +1,142 @@
+.h5p-content {
+  font-size: 16px;
+  line-height: 1.5em;
+  width: 100%;
+  height: auto;
+}
+
+.h5p-reactiontimer {
+  font-family: Sans-serif;
+  color: rgb(85, 85, 85);
+  font-size: 16px;
+  text-align: center;
+}
+
+.h5p-reactiontimer .stimuli-wrapper {
+  width: 160px;
+  height: 160px;
+  margin: 1.25em auto;
+}
+
+.h5p-reactiontimer .h5p-controls {
+  margin: .75em 1em 1.25em 1em;
+}
+
+.h5p-reactiontimer .h5p-controls .h5p-joubelui-button {
+  font-size: 1em;
+  line-height: 1.2;
+  cursor: pointer;
+  display: inline-block;
+  padding: .5em 1.25em;
+  border-radius: 2em;
+  border: none;
+  background-color: #1a73d9;
+  color: #FFFFFF;
+}
+
+.h5p-reactiontimer .h5p-joubelui-button:hover,
+.h5p-reactiontimer .h5p-joubelui-button:focus {
+  background: #1356a3;
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: initial;
+  -moz-transition: initial;
+  -o-transition: initial;
+  transition: initial;
+}
+
+.h5p-reactiontimer .h5p-controls button.disabled,
+.h5p-reactiontimer .h5p-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/*
+.h5p-reactiontimer .h5p-controls .reactiontimer-retrybutton::before {
+  font-family: 'H5PFontAwesome4';
+  padding-right: .5em;
+  content: "\f01e";
+}
+*/
+.h5p-reactiontimer .stimuli {
+  padding: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: #909090;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  border: 2px dashed #c1c1c1;
+  border-radius: 50%;
+  cursor: not-allowed;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.h5p-reactiontimer .stimuli.active {
+  color: #39692e;
+  background-color: #d1e2ce;
+  border: 2px solid #39692e;
+  cursor: pointer;
+}
+
+.h5p-reactiontimer .stimuli.invalid {
+  color: #C33F62;
+  background-color: #E6CED1;
+  border: 2px solid #C33F62;
+}
+
+.h5p-reactiontimer .stimuli::before {
+  position: absolute;
+  display: block;
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  background: #fff;
+  opacity: 0;
+}
+
+.h5p-reactiontimer .stimuli:hover::before {
+  opacity: .4;
+}
+
+.h5p-reactiontimer .stimuli span::before {
+  position: relative;
+  content: attr(data-content);
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.h5p-reactiontimer .stimuli.active span::before {
+  content: "Click!";
+}
+
+.h5p-reactiontimer .h5p-status {
+  clear: left;
+  padding: 0 1em;
+  margin: .25em 0 1em;
+}
+
+.h5p-reactiontimer .h5p-status > dd + dt::before {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.h5p-reactiontimer .h5p-status > dt {
+  margin: 0 1em 0 0;
+  font-weight: 700;
+  display: inline;
+}
+
+.h5p-reactiontimer .h5p-status > dd {
+  margin: 0;
+  display: inline;
+}
