@@ -43,18 +43,18 @@ H5P.ReactionTimer = (function ($) {
     $container.append(`
     <div class="stimuli-wrapper">
       <button id="stimuli" class="stimuli" type="button" disabled>
-        <span class="inner-content" data-content="Begin"></span>
+        <span class="inner-content" data-content="Click start"></span>
       </button>
     </div>`);
     
     $container.append(`
     <div class="h5p-controls">
-      <button id="startBtn" class="h5p-joubelui-button h5p-button reactiontimer-startbutton">Start</button>
+      <button id="advancementBtn" class="h5p-joubelui-button h5p-button reactiontimer-startbutton">Start</button>
       <button id="resetBtn" class="h5p-joubelui-button h5p-button reactiontimer-retrybutton">Reset</button>
     </div>
     `);
 
-    //$container.find('.h5p-controls').append(startBtn);
+    //$container.find('.h5p-controls').append(advancementBtn);
     
     // Show number of summary of trial
     $container.append(`
@@ -75,8 +75,8 @@ H5P.ReactionTimer = (function ($) {
       }
     });
 
-    document.getElementById('startBtn').addEventListener('click', () => {
-      this.disableStart(true);
+    document.getElementById('advancementBtn').addEventListener('click', () => {
+      this.disableAdvancement(true);
       if (!self.completed) {
         self.startTrial();
       } else {
@@ -106,6 +106,7 @@ H5P.ReactionTimer = (function ($) {
           this.responded = false;
           stimuli.classList.remove('invalid');
           this.setStimuliText('Retry');
+          this.disableAdvancement(false);
         }
       }, timer);
     });
@@ -153,7 +154,7 @@ H5P.ReactionTimer = (function ($) {
   }
 
   C.prototype.setStarted = function (value = true) {
-    document.getElementById('startBtn').innerHTML = 'Continue';
+    document.getElementById('advancementBtn').innerHTML = 'Continue';
     this.started = value;
   }
 
@@ -214,9 +215,9 @@ H5P.ReactionTimer = (function ($) {
         stimuli.setAttribute('data-content', text);
   }
 
-  C.prototype.disableStart = function (value = true) {
-    let startBtn = document.getElementById('startBtn');
-        startBtn.disabled = value;
+  C.prototype.disableAdvancement = function (value = true) {
+    let advancementBtn = document.getElementById('advancementBtn');
+        advancementBtn.disabled = value;
   }
 
   C.prototype.disableStimuli = function (value = true) {
@@ -242,10 +243,10 @@ H5P.ReactionTimer = (function ($) {
       let completed = this.hasCompleted();
       if (completed) {
         this.setStimuliText('Done!');
-        this.disableStart(true);
+        this.disableAdvancement(true);
       } else {
         this.setStimuliText(this.formatReactionTime(this.reactionTimes[0]));
-        this.disableStart(false);
+        this.disableAdvancement(false);
       }
       this.responded = false;
     }
@@ -266,15 +267,15 @@ H5P.ReactionTimer = (function ($) {
     clearTimeout(this.timeout);
 
     /* Clear styling */
-    this.disableStart(false);
-    document.getElementById('startBtn').innerHTML = 'Start';
+    this.disableAdvancement(false);
+    document.getElementById('advancementBtn').innerHTML = 'Start';
     document.getElementById('average').innerHTML = this.getAverageTime();
     document.getElementById('attempts').innerHTML = this.attempts;
     let stimuli = document.getElementById('stimuli');
         stimuli.classList.remove('active');
         stimuli.classList.remove('invalid');
 
-    this.setStimuliText('Begin');
+    this.setStimuliText('Click start');
   }
 
   return C;
