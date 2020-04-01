@@ -3,7 +3,7 @@
   "description": "Displays a series of items to test a user's reaction time.",
   "majorVersion": 1,
   "minorVersion": 0,
-  "patchVersion": 5,
+  "patchVersion": 6,
   "runnable": 1,
   "author": "Bob Carey",
   "license": "MIT",
