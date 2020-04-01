@@ -5,15 +5,6 @@
   height: auto;
 }
 
-.h5p-reactiontimer kbd {
-  background-color: #9D9D9D;
-  box-shadow: none;
-  padding: 2px 4px;
-  font-size: 90%;
-  color: #fff;
-  border-radius: 3px;
-}
-
 .h5p-reactiontimer {
   font-family: Sans-serif;
   color: rgb(85, 85, 85);

@@ -46,9 +46,10 @@ H5P.ReactionTimer = (function ($) {
     <div class="h5p-instructions">
       <strong>Instructions</strong>
       <ul>
-        <li>Click the <kbd>Start</kbd> button to begin trials.</li>
-        <li>Wait the prescribed time period and click within the circle when directed.</li>
-        <li>Continue until completed.</li>
+        <li>Click the <strong>Start</strong> button to begin the trials</li>
+        <li>Wait the prescribed time period</li>
+        <li>Click within the circle when directed</li>
+        <li>Continue until completed</li>
       </ul>
     </div>`);
 
