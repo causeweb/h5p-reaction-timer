@@ -12,6 +12,15 @@
   text-align: center;
 }
 
+.h5p-reactiontimer .h5p-instructions {
+  margin: 1.25em;
+  text-align: left;
+}
+
+.h5p-reactiontimer .h5p-instructions ul {
+  margin-top: 0.25em;
+}
+
 .h5p-reactiontimer .stimuli-wrapper {
   width: 160px;
   height: 160px;
@@ -75,7 +84,8 @@
   user-select: none;
 }
 
-.h5p-reactiontimer .stimuli.active {
+.h5p-reactiontimer .stimuli.active,
+.h5p-reactiontimer .stimuli.valid {
   color: #39692e;
   background-color: #d1e2ce;
   border: 2px solid #39692e;

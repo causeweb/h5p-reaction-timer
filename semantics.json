@@ -7,5 +7,16 @@
     "max": 25,
     "step": 1,
     "default": 5
+  },
+  {
+    "label": "Countdown Timer",
+    "name": "countdownTime",
+    "type": "number",
+    "description": "Number of seconds to count down before randomized wait period. Set to zero to skip.",
+    "min": 0,
+    "max": 60,
+    "step": 1,
+    "default": 3,
+    "optional": true
   }
 ]

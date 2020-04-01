@@ -9,11 +9,13 @@ H5P.ReactionTimer = (function ($) {
     H5P.EventDispatcher.call(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-      repetitions: 5
+      repetitions: 5,
+      countdownTime: 0
     }, options);
     // Keep provided id.
     this.id = id;
     
+    this.stimuli = null;
     this.timeStart = 0;
     this.timeStop = 0;
     this.started = false;
@@ -39,6 +41,16 @@ H5P.ReactionTimer = (function ($) {
     // Set class on container to identify it as a greeting card
     // container.  Allows for styling later.
     $container.addClass("h5p-reactiontimer");
+
+    $container.append(`
+    <div class="h5p-instructions">
+      <strong>Instructions</strong>
+      <ul>
+        <li>Click the <kbd>Start</kbd> button to begin trials.</li>
+        <li>Wait the prescribed time period and click within the circle when directed.</li>
+        <li>Continue until completed.</li>
+      </ul>
+    </div>`);
 
     $container.append(`
     <div class="stimuli-wrapper">
@@ -68,7 +80,9 @@ H5P.ReactionTimer = (function ($) {
     </dl>
     `);
 
-    document.getElementById('stimuli').addEventListener('click', function (event) {
+    this.stimuli = document.getElementById('stimuli');
+
+    this.stimuli.addEventListener('click', function (event) {
       if (!self.hasCompleted()) {
         self.disableStimuli();
         self.handleResponse(event);
@@ -90,21 +104,21 @@ H5P.ReactionTimer = (function ($) {
   };
 
   C.prototype.startTrial = function () {
+    let waitTime = this.options.countdownTime ? this.options.countdownTime : 0;
     this.setStarted();
-    this.countdown().then(() => {
+    this.countdown(waitTime).then(() => {
       let timer = this.randWaitTime();
       this.disableStimuli(false);
       this.timeout = setTimeout(() => {
-        let stimuli = document.getElementById('stimuli');
         if(!this.responded) {
-          stimuli.classList.add('active');
+          this.stimuli.classList.add('active');
           this.waiting = false;
           this.setStimuliText('Click!');
           this.startTimer();
         } else {
           /* Ignore previous response and clear */
           this.responded = false;
-          stimuli.classList.remove('invalid');
+          this.stimuli.classList.remove('invalid');
           this.setStimuliText('Retry');
           this.disableAdvancement(false);
         }
@@ -136,20 +150,26 @@ H5P.ReactionTimer = (function ($) {
     return average;
   }
 
-  C.prototype.countdown = function (wait = 3) {
+  C.prototype.countdown = function (wait = 0) {
     return new Promise((resolve, reject) => {
       let counter = wait;
-      this.setStimuliText(counter);
-      this.countdownInterval = setInterval(() => {
-        counter--;
-        if (counter > 0) {
-          this.setStimuliText(counter);
-        } else {
-          this.setStimuliText('Wait');
-          clearInterval(this.countdownInterval);
-          resolve();
-        }
-      }, 1000);
+      let text = wait > 0 ? counter : 'Get ready!';
+      this.setStimuliText(text);
+
+      if(wait > 0) {
+        this.countdownInterval = setInterval(() => {
+          counter--;
+          if (counter > 0) {
+            this.setStimuliText(counter);
+          } else {
+            this.setStimuliText('Wait');
+            clearInterval(this.countdownInterval);
+            resolve();
+          }
+        }, 1000);
+      } else {
+        resolve();
+      }
     });
   }
 
@@ -211,8 +231,7 @@ H5P.ReactionTimer = (function ($) {
   }
 
   C.prototype.setStimuliText = function (text) {
-    let stimuli = document.getElementById('stimuli').querySelector('.inner-content');
-        stimuli.setAttribute('data-content', text);
+    this.stimuli.querySelector('.inner-content').setAttribute('data-content', text);
   }
 
   C.prototype.disableAdvancement = function (value = true) {
@@ -221,28 +240,26 @@ H5P.ReactionTimer = (function ($) {
   }
 
   C.prototype.disableStimuli = function (value = true) {
-    let stimuli = document.getElementById('stimuli');
-        stimuli.disabled = value;
-    this.setStimuliText('Wait');
+    this.stimuli.disabled = value;
   }
 
   C.prototype.handleResponse = function (event) {
-    let stimuli = document.getElementById('stimuli');
     this.stopTimer();
     this.responded = true;
     /* Check if input was too soon */
     if(this.waiting) {
       this.setStimuliText('Too Soon!');
-      stimuli.classList.add('invalid');
+      this.stimuli.classList.add('invalid');
     } else {
       this.storeTime();
       let avg = this.computeAvg();
-      stimuli.classList.remove('active');
+      this.stimuli.classList.remove('active');
       this.updateAverage(avg);
       this.updateAttempts();
-      let completed = this.hasCompleted();
-      if (completed) {
-        this.setStimuliText('Done!');
+
+      if (this.hasCompleted()) {
+        this.setStimuliText('Complete ✓');
+        this.stimuli.classList.add('valid');
         this.disableAdvancement(true);
       } else {
         this.setStimuliText(this.formatReactionTime(this.reactionTimes[0]));
@@ -271,10 +288,11 @@ H5P.ReactionTimer = (function ($) {
     document.getElementById('advancementBtn').innerHTML = 'Start';
     document.getElementById('average').innerHTML = this.getAverageTime();
     document.getElementById('attempts').innerHTML = this.attempts;
-    let stimuli = document.getElementById('stimuli');
-        stimuli.classList.remove('active');
-        stimuli.classList.remove('invalid');
-
+    this.stimuli.classList.remove(
+      'active',
+      'valid',
+      'invalid'
+    );
     this.setStimuliText('Click start');
   }
 
