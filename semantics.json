@@ -1,4 +1,21 @@
-[{
+[
+  {
+    "label": "Instructions",
+    "type": "text",
+    "name": "instructions",
+    "widget": "html",
+    "tags": [
+      "strong",
+      "em",
+      "u",
+      "sub",
+      "sup",
+      "ol",
+      "ul"
+    ],
+    "optional": true
+  },
+  {
     "label": "Repetitions",
     "name": "repetitions",
     "type": "number",
@@ -18,5 +35,34 @@
     "step": 1,
     "default": 3,
     "optional": true
+  },
+  {
+    "name": "waitTimeGroup",
+    "type": "group",
+    "label": "Wait Timer",
+    "fields": [{
+        "label": "Min",
+        "name": "waitTimeMin",
+        "type": "number",
+        "description": "Minimum number of seconds to wait before displaying the stimulus.",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 1,
+        "optional": true
+      },
+      {
+        "label": "Max",
+        "name": "waitTimeMax",
+        "type": "number",
+        "description": "Maximum number of seconds to wait before displaying the stimulus. Must be greater than minimum time.",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "default": 3,
+        "optional": true
+      }
+    ],
+    "expanded": true
   }
 ]

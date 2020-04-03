@@ -3,19 +3,25 @@
   "description": "Displays a series of items to test a user's reaction time.",
   "majorVersion": 1,
   "minorVersion": 0,
-  "patchVersion": 7,
+  "patchVersion": 13,
   "runnable": 1,
   "author": "Bob Carey",
   "license": "MIT",
   "machineName": "H5P.ReactionTimer",
-  "preloadedJs": [
-    {
-      "path": "reactiontimer.js"
-    }
-  ],
-  "preloadedCss": [
-    {
-      "path": "reactiontimer.css"
-    }
-  ]
+  "preloadedJs": [{
+    "path": "reactiontimer.js"
+  }],
+  "preloadedCss": [{
+    "path": "reactiontimer.css"
+  }],
+  "preloadedDependencies": [{
+    "machineName": "FontAwesome",
+    "majorVersion": 4,
+    "minorVersion": 5
+  },
+  {
+    "machineName": "H5P.JoubelUI",
+    "majorVersion": 1,
+    "minorVersion": 3
+  }]
 }
