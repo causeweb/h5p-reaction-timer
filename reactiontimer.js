@@ -118,14 +118,17 @@ H5P.ReactionTimer = (function ($) {
     `);
 
     $(advancementBtn).click(function() {
+      self.triggerXAPI('interacted', 'continue');
       self.trigger('advancement');
     });
 
     $(resetBtn).click(function() {
+      self.triggerXAPI('voided');
       self.trigger('reset');
     });
 
     $(resultsBtn).click(function() {
+      self.triggerXAPI('asked');
       self.trigger('showResults');
     });
 
@@ -167,19 +170,23 @@ H5P.ReactionTimer = (function ($) {
     this.stimuli = document.getElementById('h5p-stimuli');
   };
 
-  C.prototype.triggerXAPI = function (verb = 'interacted') {
+  C.prototype.triggerXAPI = function (verb = 'interacted', details) {
     var xAPIEvent = this.createXAPIEventTemplate(verb);
 
     if(verb == 'attempted') {
-
+      if(details == 'early'){
+        xAPIEvent.setScoredResult(-1, 1, self, false, false);
+      } else {
+        xAPIEvent.setScoredResult(this.reactionTimes[0], 1, self, false, true);
+      }
     } else if (verb == 'completed') {
-
-    } else /* interacted */ {
-
+      xAPIEvent.setScoredResult(this.reactionTimes[0], 1, self, true, true);
+    } else {
+      
     }
 
     this.trigger(xAPIEvent);
-    console.log(xAPIEvent);
+    console.log(xAPIEvent.data.statement);
   }
 
   C.prototype.startTrial = function () {
@@ -379,7 +386,7 @@ H5P.ReactionTimer = (function ($) {
     this.responded = true;
     /* Check if input was too soon */
     if(this.waiting) {
-      this.triggerXAPI('attempted');
+      this.triggerXAPI('attempted', 'early');
       this.setStimuliText('Too Soon');
       this.stimuli.classList.add('invalid');
     } else {
@@ -398,7 +405,7 @@ H5P.ReactionTimer = (function ($) {
         $('#advancementBtn').hide();
         $('#resultsBtn').show();
       } else {
-        this.triggerXAPI('interacted');
+        this.triggerXAPI('attempted');
         this.setStimuliText(this.formatReactionTime(this.reactionTimes[0], 'sec'));
         this.disableAdvancement(false);
       }
