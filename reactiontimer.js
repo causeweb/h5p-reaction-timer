@@ -123,7 +123,7 @@ H5P.ReactionTimer = (function ($) {
     });
 
     $(resetBtn).click(function() {
-      self.triggerXAPI('voided');
+      self.triggerXAPI('terminated');
       self.trigger('reset');
     });
 
@@ -183,7 +183,7 @@ H5P.ReactionTimer = (function ($) {
       xAPIEvent.setScoredResult(this.reactionTimes[0], this.reactionTimes[0], self, true, true);
     } else {
 
-    }``
+    }
 
     this.trigger(xAPIEvent);
   }
