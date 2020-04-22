@@ -67,7 +67,7 @@ H5P.ReactionTimer = (function ($) {
     .click(function() {
       self.trigger('stimuliInteraction')
     });
-    
+
     let stimuliInner = $('<span/>', {
       'id': 'h5p-stimuli-inner',
       'class': 'inner-content'
@@ -175,15 +175,15 @@ H5P.ReactionTimer = (function ($) {
 
     if(verb == 'attempted') {
       if(details == 'early'){
-        xAPIEvent.setScoredResult(-1, 1, self, false, false);
+        xAPIEvent.setScoredResult(0, 1, self, false, false);
       } else {
-        xAPIEvent.setScoredResult(this.reactionTimes[0], 1, self, false, true);
+        xAPIEvent.setScoredResult(this.reactionTimes[0], this.reactionTimes[0], self, false, true);
       }
     } else if (verb == 'completed') {
-      xAPIEvent.setScoredResult(this.reactionTimes[0], 1, self, true, true);
+      xAPIEvent.setScoredResult(this.reactionTimes[0], this.reactionTimes[0], self, true, true);
     } else {
-      
-    }
+
+    }``
 
     this.trigger(xAPIEvent);
   }
@@ -426,7 +426,7 @@ H5P.ReactionTimer = (function ($) {
     this.average = 0;
     this.attempts = 0;
     this.reactionTimes = [];
-    
+
     /* Clear timeouts + intervals if trial in progress */
     clearInterval(this.countdownInterval);
     clearTimeout(this.timeout);
